@@ -11,5 +11,20 @@
   "license": "ISC",
   "dependencies": {
     "csvtojson": "1.1.9"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "quokka": {
+    "babel": true
+  },
+  "scripts": {
+     "start": "babel-node index.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
   }
 }

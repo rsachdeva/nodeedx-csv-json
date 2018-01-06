@@ -1,19 +1,40 @@
 const csvFilePath = 'customer-data.csv'
-const fs = require('fs')
-const csv = require('csvtojson')
-let arr = []
-csv()
-  .fromFile(csvFilePath)
-  .on('json',(jsonObj)=>{
-    arr.push(jsonObj)
+import fs from 'fs'
+import csv from 'csvtojson'
+
+const jsonLineAddAction = (state, arr) => {
+  return [
+    ...state,
+    arr
+  ]
+}
+
+const jsonLinesReducer = (csvFilePath) => {
+  return new Promise((resolve, reject) => {
+    let jsonLinesState = []
+    const emitter = csv().fromFile(csvFilePath)
+    emitter.on('json', (jsonObj) => {
+      jsonLinesState = jsonLineAddAction(jsonLinesState, jsonObj)
+    })
+    emitter.on('done', (error) => {
+        if (error) reject(error)
+        resolve(jsonLinesState)
+      }
+    )
   })
-  .on('done',(error)=>{
+}
+
+const jsonFileFromCSVFile = async (csvFilePath) => {
+  try {
+    fs.writeFile('customer-data.json', JSON.stringify((await jsonLinesReducer(csvFilePath)), null, 2), (error)=>{
       if (error) return process.exit(1)
-      console.log(arr)
-      fs.writeFile('customer-data.json', JSON.stringify(arr, null, 2), (error)=>{
-        if (error) return process.exit(1)
-        console.log('done')
-        process.exit(0)
-      })
-    }
-  )
+      console.log('json file created')
+      process.exit(0)
+    })
+  } catch(error) {
+    console.log("error", error)
+    process.exit(1);
+  }
+}
+
+jsonFileFromCSVFile(csvFilePath)
