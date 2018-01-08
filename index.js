@@ -12,11 +12,12 @@ const jsonLineAddAction = (state, arr) => {
 const jsonLinesReducer = (csvFilePath) => {
   return new Promise((resolve, reject) => {
     let jsonLinesState = []
-    const emitter = csv().fromFile(csvFilePath)
-    emitter.on('json', (jsonObj) => {
-      jsonLinesState = jsonLineAddAction(jsonLinesState, jsonObj)
-    })
-    emitter.on('done', (error) => {
+    csv()
+      .fromFile(csvFilePath)
+      .on('json', (jsonObj) => {
+        jsonLinesState = jsonLineAddAction(jsonLinesState, jsonObj)
+      })
+      .on('done', (error) => {
         if (error) reject(error)
         resolve(jsonLinesState)
       }
