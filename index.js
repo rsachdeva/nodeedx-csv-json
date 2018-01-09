@@ -1,29 +1,6 @@
 const csvFilePath = 'customer-data.csv'
 import fs from 'fs'
-import csv from 'csvtojson'
-
-const jsonLineAddAction = (state, arr) => {
-  return [
-    ...state,
-    arr
-  ]
-}
-
-const jsonLinesReducer = (csvFilePath) => {
-  return new Promise((resolve, reject) => {
-    let jsonLinesState = []
-    csv()
-      .fromFile(csvFilePath)
-      .on('json', (jsonObj) => {
-        jsonLinesState = jsonLineAddAction(jsonLinesState, jsonObj)
-      })
-      .on('done', (error) => {
-        if (error) reject(error)
-        resolve(jsonLinesState)
-      }
-    )
-  })
-}
+import jsonLinesReducer from './jsonLinesReducer'
 
 const jsonFileFromCSVFile = async (csvFilePath) => {
   try {
