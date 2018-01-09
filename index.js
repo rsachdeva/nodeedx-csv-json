@@ -1,7 +1,7 @@
-const csvFilePath = 'customer-data.csv'
 import fs from 'fs'
 import jsonLinesReducer from './jsonLinesReducer'
 
+const csvFilePath = 'customer-data.csv'
 const jsonFileFromCSVFile = async (csvFilePath) => {
   try {
     fs.writeFile('customer-data.json', JSON.stringify((await jsonLinesReducer(csvFilePath)), null, 2), (error)=>{
