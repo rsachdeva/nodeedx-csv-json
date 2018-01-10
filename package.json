@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,9 +20,6 @@
   },
   "quokka": {
     "babel": true
-  },
-  "scripts": {
-     "start": "babel-node index.js"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
